@@ -1,8 +1,7 @@
 <?php 
-  // complete all TODO"s before using
+  // complete all TODO's before using
 
-  // TODO: Update domain to prevent phishing errors
-  $domain = "example.com"; // domain where this file will live with no http:// or www. 
+  $domain = $_SERVER['HTTP_HOST']; // change this manually if need be.
 
   // TODO: Update dev email and emails to recieve notifications
   $notification_emails = array();
@@ -33,7 +32,7 @@
 
   // if we dont have any data, do not log it or send a notification, just die
   if( !$contains_data ) {
-    die("No data was in the form. Do not send emails out.");
+    die("No data was in the form. Emails not sent.");
   }
 
   // log email
@@ -42,6 +41,7 @@
 
   // send out notifications
   foreach ($notification_emails as $email) {
+    // TODO: Update message and subject and header
     $sent_to .= $email;
     $to      = $email;
     $subject = "Subject";
@@ -56,7 +56,7 @@
   // Confirmation email
   // TODO: Update $to and $message with correct $_POST variable names from form
   $to      = $_POST["Email"];
-  $subject = "Ken Bonham Confirmation";
+  $subject = "Subject";
   $message = "Hey ".$_POST["First"]."! Here is what we recieved: " . "\r\n\n" . $vars;
   $headers = "From: admin@". $domain . "\r\n" . "X-Mailer: PHP/" . phpversion();
 
@@ -73,7 +73,7 @@
   function alertDev($message) {
     // tell a dev an error occured
     $to      = $dev_email;
-    $subject = "Form Failure";
+    $subject = "Form Failure at: " + $domain;
     $headers = "From: admin@". $domain . "\r\n" . "X-Mailer: PHP/" . phpversion();
     mail($to, $subject, $message, $headers);
     die( $message );
